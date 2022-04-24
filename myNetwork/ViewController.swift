@@ -83,8 +83,7 @@ class PostService {
         // 3. создаем URLRequest (тут информация о запросе)
         var request = URLRequest(url: url)
         
-        // хэдеры (1.нужен ли " charset=utf-8"? результат такой же и без него;
-        //         2. setValue/addValue)
+        // хэдеры 
         request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         // тип метода
         request.httpMethod = "POST"
