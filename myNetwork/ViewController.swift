@@ -60,8 +60,7 @@ class PostService {
             guard let data = data, error == nil else { return }
             
             let decoder = JSONDecoder()
-            let posts = try? decoder.decode(Array<Post>.self, from: data)
-            //            decoder.decode([Post].self, from: data)
+            let posts = try? decoder.decode([Post].self, from: data)
             
             print(type(of: posts))
             
