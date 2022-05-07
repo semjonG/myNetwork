@@ -43,7 +43,14 @@ class PostService {
     let numberOfPost = "/1"
     
     // MARK: GET method
-    func getData(userId: Int, completion: @escaping ([Post]) -> ()) {
+    //func getData(userId: Int, completion: @escaping ([Post]) -> ()) {
+    
+//    enum MyResult<Value, Error: Swift.Error> {
+//    case success(Value)
+//    case failure(Error)
+//    }
+    
+    func getData(userId: Int, completion: @escaping (Result<[Post], Error>) -> ()) {
         
         let endpointURL = "\(baseURL)\(path)\(parameter)"
         
@@ -60,11 +67,19 @@ class PostService {
             guard let data = data, error == nil else { return }
             
             let decoder = JSONDecoder()
-            let posts = try? decoder.decode([Post].self, from: data)
             
-            print(type(of: posts))
+            do {
+                let posts = try decoder.decode([Post].self, from: data)
+                
+                //print(type(of: posts)
+                //completion(posts ?? [])
+                completion(.success(posts))
+                
+            } catch {
+                completion(.failure(error))
+            }
             
-            completion(posts ?? [])
+            
             
         }.resume()
     }
@@ -82,7 +97,7 @@ class PostService {
         // 3. создаем URLRequest (тут информация о запросе)
         var request = URLRequest(url: url)
         
-        // хэдеры 
+        // хэдеры
         request.addValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         // тип метода
         request.httpMethod = "POST"
